@@ -64,7 +64,7 @@ int main(){
     insert(21, 5, head, tail);
     insert(22, 7, head, tail);
     insert(23, 2, head, tail);
-    insert(100, 0, RR, RT);
+    insert(1002, 0, RR, RT);
 	insert(101, 1, RR, RT);
 	insert(102, 2, RR, RT);
 	insert(103, 3, RR, RT);
