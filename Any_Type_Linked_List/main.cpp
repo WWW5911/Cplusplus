@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
-#include <String>
 #include <algorithm>
 using namespace std;
 
@@ -12,14 +11,14 @@ struct listNode {
     bool operator==(const T& a) const{
         return (data == a);
     }
-    listNode& operator++(){
-        return *(this->nextPtr);
-    }
-    listNode operator++(int){
-        this = this->nextPtr;
+    listNode &operator++(){
+        *this = *((*this).nextPtr);
         return *this;
     }
-
+    listNode operator++(int){
+        *this = *((*this).nextPtr);
+        return *this;
+    }
 };
 
 
@@ -143,7 +142,7 @@ void instructions( void )
 template <typename T>
 void Testfind( listNode<T>* sPtr, T value ){
     listNode<T>* currentPtr = sPtr;
-    ++*currentPtr;
+   // ++*currentPtr;
     while ( currentPtr->nextPtr != NULL ) {
         currentPtr = currentPtr->nextPtr;
     }
