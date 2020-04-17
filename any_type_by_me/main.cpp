@@ -75,6 +75,8 @@ void Choice(node_wrap<ListNode<T>> &startPtr, unsigned int choice, string type);
 template <typename T>
 void Insert(node_wrap<ListNode<T>> &sPtr, T value, string type );
 template <typename T>
+bool Delete(node_wrap<ListNode<T>> &sPtr, T value );
+template <typename T>
 int isEmpty(node_wrap<ListNode<T>> sPtr );
 template <typename T>
 void printList(node_wrap<ListNode<T>> currentPtr );
@@ -148,6 +150,24 @@ void Choice(node_wrap<ListNode<T>> &startPtr, unsigned int choice, string type){
             Insert<T>( startPtr, item , type); 
             printList( startPtr );
             break;
+        case 2: 
+            if ( !isEmpty( startPtr ) ) {
+                cout<<"Enter "<<type<<" to be deleted: ";
+                cin>>item;
+
+                if ( Delete( startPtr, item ) ) {
+                    cout<<item<<" deleted"<<endl;
+                    printList( startPtr );
+               } 
+               else {
+                   cout<<item<<" not found."<<endl<<endl;
+               } 
+            } 
+            else {
+               puts( "List is empty.\n" );
+            } 
+
+            break;
         case 4:
             cout<<"Enter "<<type<<" to find: ";
             cin>>item;
@@ -192,7 +212,35 @@ void Insert(node_wrap<ListNode<T>> &sPtr, T value, string type ){
 
 }
 
+template <typename T>
+bool Delete(node_wrap<ListNode<T>> &sPtr, T value ){
+    node_wrap<ListNode<T>> tempPtr; 
+    node_wrap<ListNode<T>> previousPtr; 
+    node_wrap<ListNode<T>> currentPtr; 
+   if ( value == ( sPtr )->data ) {
+      tempPtr = sPtr; // hold onto node being removed
+      sPtr = ( sPtr )->nextPtr; // de-thread the node
+      return true;
+   }
+   else {
+      previousPtr = sPtr;
+      currentPtr = ( sPtr )->nextPtr;
 
+      // loop to find the correct location in the list
+      while ( currentPtr != NULL && currentPtr->data != value ) {
+         previousPtr = currentPtr; // walk to ...
+         currentPtr = currentPtr->nextPtr; // ... next node
+      } // end while
+      // delete node at currentPtr
+      if ( currentPtr != NULL ) {
+         tempPtr = currentPtr;
+         previousPtr->nextPtr = currentPtr->nextPtr;
+         return true;
+      } // end if
+   } // end else
+
+   return false;
+}
 
 
 template <typename T>
