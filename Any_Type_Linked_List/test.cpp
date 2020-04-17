@@ -11,16 +11,32 @@ struct listNode {
     bool operator==(const T& a) const{
         return (data == a);
     }
-    listNode &operator++(){
-        *this = *((*this).nextPtr);
+};
+template <class listNode>
+struct node_wrapper{
+    listNode* ptr;
+
+    node_wrapper(listNode* p):ptr(p){}
+    
+    listNode& operator*()const{
+        return *ptr;
+    }
+    listNode* operator->()const{
+        return ptr;
+    }
+    node_wrapper& operator++(){
+        ptr = ptr->nextPtr;
         return *this;
     }
-    listNode operator++(int){
-        *this = *((*this).nextPtr);
-        return *this;
+    node_wrapper operator++(int){
+        node_wrapper temp = *this;
+        ptr = ptr->nextPtr;
+        return temp;
+    }
+    bool operator==(const node_wrapper& i)const {
+        return ptr == i.ptr;
     }
 };
-
 
 
 
@@ -142,13 +158,12 @@ void instructions( void )
 template <typename T>
 void Testfind( listNode<T>* sPtr, T value ){
     listNode<T>* currentPtr = sPtr;
-   // ++*currentPtr;
     while ( currentPtr->nextPtr != NULL ) {
         currentPtr = currentPtr->nextPtr;
     }
-    listNode<T>* ans = find(sPtr, currentPtr, value);
+    node_wrapper<listNode<T>> ans = find(node_wrapper<listNode<T>>(sPtr), node_wrapper<listNode<T>>(currentPtr), value);
     if(ans->data != value) cout<<"Cannot find " << value <<endl;
-    else cout<<"find "<<value << " at "<<ans <<endl;
+    //else cout<<"find "<<value << " at "<<ans <<endl;
 }
 
 template <typename T>
@@ -255,3 +270,5 @@ void printList( listNode<T>* currentPtr )
       puts( "NULL\n" );
    } // end else
 } // end function printList
+
+
